@@ -1,4 +1,4 @@
-FROM balenalib/%%BALENA_MACHINE_NAME%%-node:6-run
+FROM balenalib/%%BALENA_MACHINE_NAME%%-node:8-run
 
 RUN apt-get update && apt-get install -yq \
     python build-essential libusb-1.0-0-dev \
@@ -11,7 +11,9 @@ COPY package.json package.json
 
 RUN JOBS=MAX npm install -g node-gyp
 RUN JOBS=MAX npm install node-hid --build-from-source
-RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf /tmp/*
+RUN JOBS=MAX npm install --production --unsafe-perm \
+    && npm cache clean --force \
+    && rm -rf /tmp/*
 
 COPY . ./
 
