@@ -1,8 +1,11 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var KeyboardCharacters = require('node-hid-stream').KeyboardCharacters;
-var characters = new KeyboardCharacters({ vendorId: 0x0f39, productId: 0x0877 });
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const KeyboardCharacters = require('node-hid-stream').KeyboardCharacters;
+const vendorId = parseInt(process.env.VENDOR_ID || '0f39', 16);
+const productId = parseInt(process.env.PRODUCT_ID || '0877', 16);
+
+const characters = new KeyboardCharacters({ vendorId, productId });
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
